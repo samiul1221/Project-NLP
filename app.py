@@ -1,5 +1,4 @@
 import streamlit as st
-import tensorflow as tf
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import PorterStemmer
@@ -7,8 +6,8 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import joblib
-
 import re
+import tensorflow as tf
 
 model = tf.keras.models.load_model('Model-Nlp.keras',compile=False)
 # tfid = TfidfVectorizer()
