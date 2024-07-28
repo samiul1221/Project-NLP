@@ -11,13 +11,13 @@ import joblib
 import re
 import tensorflow as tf
 
-model = keras.models.load_model('v2\\Model-Nlp-full-256-v2.keras',compile=False)
+model = keras.models.load_model('Model-Nlp-full-v2.keras',compile=False)
 # tfid = TfidfVectorizer()
 stem = PorterStemmer()
 lemma = WordNetLemmatizer()
 
 stop_words = set(stopwords.words('english'))
-tfid = joblib.load('v2\\tfidf_vectorizer_full-256 v2.joblib')
+tfid = joblib.load('tfidf_vectorizer_full-v2.joblib')
 
 def predict_review(text):
     cleaned_review = re.sub("<.*?>","",text)
