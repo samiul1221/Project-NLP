@@ -5,6 +5,7 @@ from tensorflow import keras
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
+import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import joblib
@@ -12,13 +13,25 @@ import re
 import tensorflow as tf
 
 model = keras.models.load_model('Model-Nlp-full-v2.keras',compile=False)
+
 # tfid = TfidfVectorizer()
+
+try:
+    stopwords.words('english')
+except LookupError:
+    nltk.download('stopwords')
+    nltk.download('punkt')
+
+    
 stem = PorterStemmer()
 lemma = WordNetLemmatizer()
 
 stop_words = set(stopwords.words('english'))
 tfid = joblib.load('tfidf_vectorizer_full-v2.joblib')
 
+
+
+    
 def predict_review(text):
     cleaned_review = re.sub("<.*?>","",text)
     cleaned_review = re.sub(r'[^a-zA-Z0-9\s]', '', text)
@@ -48,18 +61,21 @@ reactin_dict = {
 }
 # React to user input
 prompt = st.chat_input("Whats Your Opinion?")
-if prompt:
-
-    # Display user message in chat message container
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    st.session_state.messages.append({"role":"user","content":prompt})
-
-    # Now for the response
-    response = reactin_dict[predict_review(prompt)]
-
-    # Display assistant response in chat message container
-    with st.chat_message("assistant"):
-        st.markdown(response)
-
-    st.session_state.messages.append({'role':"assistant","content":response})
+try:
+    if prompt:
+    
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        st.session_state.messages.append({"role":"user","content":prompt})
+    
+        # Now for the response
+        response = reactin_dict[predict_review(prompt)]
+    
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+            st.markdown(response)
+    
+        st.session_state.messages.append({'role':"assistant","content":response})
+except :
+    st.error("Something went wrong... Pls try again")    
