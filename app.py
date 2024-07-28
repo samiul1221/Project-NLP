@@ -1,5 +1,7 @@
 import streamlit as st
 import numpy as np
+from tensorflow import keras
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
@@ -9,13 +11,13 @@ import joblib
 import re
 import tensorflow as tf
 
-model = tf.keras.models.load_model('Model-Nlp.keras',compile=False)
+model = keras.models.load_model('v2\\Model-Nlp-full-256-v2.keras',compile=False)
 # tfid = TfidfVectorizer()
 stem = PorterStemmer()
 lemma = WordNetLemmatizer()
 
 stop_words = set(stopwords.words('english'))
-tfid = joblib.load('tfidf_vectorizer.joblib')
+tfid = joblib.load('v2\\tfidf_vectorizer_full-256 v2.joblib')
 
 def predict_review(text):
     cleaned_review = re.sub("<.*?>","",text)
